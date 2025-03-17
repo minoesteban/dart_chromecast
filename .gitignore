@@ -25,7 +25,9 @@ doc/api/
 *.js.deps
 *.js.map
 
-
 # End of https://www.gitignore.io/api/dart
 
 saved_cast_state.json
+
+# FVM Version Cache
+.fvm/

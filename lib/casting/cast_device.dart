@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:convert' show utf8;
 import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
@@ -7,11 +6,7 @@ import 'package:http/io_client.dart';
 import 'package:logging/logging.dart';
 import 'package:universal_io/io.dart';
 
-enum CastDeviceType {
-  Unknown,
-  ChromeCast,
-  AppleTV,
-}
+enum CastDeviceType { Unknown, ChromeCast, AppleTV }
 
 enum GoogleCastModelType {
   GoogleHub,
@@ -49,13 +44,7 @@ class CastDevice {
   String? _friendlyName;
   String? _modelName;
 
-  CastDevice({
-    this.name,
-    this.type,
-    this.host,
-    this.port,
-    this.attr,
-  }) {
+  CastDevice({this.name, this.type, this.host, this.port, this.attr}) {
     initDeviceInfo();
   }
 
@@ -71,13 +60,15 @@ class CastDevice {
         // Possible parameters: version,audio,name,build_info,detail,device_info,net,wifi,setup,settings,opt_in,opencast,multizone,proxy,night_mode_params,user_eq,room_equalizer
         try {
           bool trustSelfSigned = true;
-          HttpClient httpClient = HttpClient()
-            ..badCertificateCallback =
-                ((X509Certificate cert, String host, int port) =>
-                    trustSelfSigned);
+          HttpClient httpClient =
+              HttpClient()
+                ..badCertificateCallback =
+                    ((X509Certificate cert, String host, int port) =>
+                        trustSelfSigned);
           IOClient ioClient = new IOClient(httpClient);
           final uri = Uri.parse(
-              'https://$host:8443/setup/eureka_info?params=name,device_info');
+            'https://$host:8443/setup/eureka_info?params=name,device_info',
+          );
           http.Response response = await ioClient.get(uri);
           Map deviceInfo = jsonDecode(response.body);
 
